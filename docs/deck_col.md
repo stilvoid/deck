@@ -1,10 +1,10 @@
 ## deck col
 
-Set the colour of button <id>. <red>, <blue>, and <green> must be values from 0 to 255.
+Set a button to a colour. The red, green, and blue values must all be 0-255
 
 ### Synopsis
 
-Set the colour of button <id>. <red>, <blue>, and <green> must be values from 0 to 255.
+Set a button to a colour. The red, green, and blue values must all be 0-255
 
 ```
 deck col <id> <red> <blue> <green> [flags]

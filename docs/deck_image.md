@@ -1,10 +1,10 @@
 ## deck image
 
-Put the image in <filename> on button <id>
+Put an image on a button
 
 ### Synopsis
 
-Put the image in <filename> on button <id>
+Put an image on a button
 
 ```
 deck image <id> <filename> [flags]

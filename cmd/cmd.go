@@ -60,7 +60,7 @@ var pollCmd = &cobra.Command{
 
 var textCmd = &cobra.Command{
 	Use:   "text <id> <string>",
-	Short: "Put the text <string> on button <id>",
+	Short: "Put text on a button",
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])
@@ -74,7 +74,7 @@ var textCmd = &cobra.Command{
 
 var imageCmd = &cobra.Command{
 	Use:   "image <id> <filename>",
-	Short: "Put the image in <filename> on button <id>",
+	Short: "Put an image on a button",
 	Args:  cobra.ExactArgs(2),
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])
@@ -90,7 +90,7 @@ var imageCmd = &cobra.Command{
 
 var colCmd = &cobra.Command{
 	Use:   "col <id> <red> <blue> <green>",
-	Short: "Set the colour of button <id>. <red>, <blue>, and <green> must be values from 0 to 255.",
+	Short: "Set a button to a colour. The red, green, and blue values must all be 0-255",
 	Args:  cobra.ExactArgs(4),
 	Run: func(cmd *cobra.Command, args []string) {
 		id, err := strconv.Atoi(args[0])

@@ -13,12 +13,12 @@ function _deck {
   cmnds)
     commands=(
       "clear:Clear the deck"
-      "col:Set the colour of button <id>. <red>, <blue>, and <green> must be values from 0 to 255."
+      "col:Set a button to a colour. The red, green, and blue values must all be 0-255"
       "help:Help about any command"
-      "image:Put the image in <filename> on button <id>"
+      "image:Put an image on a button"
       "poll:Poll for button presses until you exit with ctrl+c"
       "reset:Rest the deck"
-      "text:Put the text <string> on button <id>"
+      "text:Put text on a button"
     )
     _describe "command" commands
     ;;

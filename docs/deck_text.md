@@ -1,10 +1,10 @@
 ## deck text
 
-Put the text <string> on button <id>
+Put text on a button
 
 ### Synopsis
 
-Put the text <string> on button <id>
+Put text on a button
 
 ```
 deck text <id> <string> [flags]
