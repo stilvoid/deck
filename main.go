@@ -11,26 +11,32 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var deck = func() func() *streamdeck.Device {
-	var d *streamdeck.Device
+var deck *streamdeck.Device
 
-	return func() *streamdeck.Device {
-		if d == nil {
-			var err error
-			if d, err = streamdeck.OpenWithoutReset(); err != nil {
-				panic(err)
-			}
+func getDeck() *streamdeck.Device {
+	if deck == nil {
+		var err error
+		if deck, err = streamdeck.OpenWithoutReset(); err != nil {
+			panic(err)
 		}
-
-		return d
 	}
-}()
+
+	return deck
+}
 
 var clearCmd = &cobra.Command{
 	Use:   "clear",
 	Short: "Clear the deck",
 	Run: func(cmd *cobra.Command, args []string) {
-		deck().ClearButtons()
+		getDeck().ClearButtons()
+	},
+}
+
+var resetCmd = &cobra.Command{
+	Use:   "reset",
+	Short: "Rest the deck",
+	Run: func(cmd *cobra.Command, args []string) {
+		getDeck().ResetComms()
 	},
 }
 
@@ -38,7 +44,7 @@ var pollCmd = &cobra.Command{
 	Use:   "poll",
 	Short: "Poll for button presses until you exit with ctrl+c",
 	Run: func(cmd *cobra.Command, args []string) {
-		deck().ButtonPress(func(btn int, d *streamdeck.Device, err error) {
+		getDeck().ButtonPress(func(btn int, d *streamdeck.Device, err error) {
 			if err != nil {
 				panic(err)
 			}
@@ -62,7 +68,7 @@ var textCmd = &cobra.Command{
 			panic(err)
 		}
 
-		deck().WriteTextToButton(id, args[1], color.RGBA{255, 255, 255, 255}, color.RGBA{0, 0, 0, 255})
+		getDeck().WriteTextToButton(id, args[1], color.RGBA{255, 255, 255, 255}, color.RGBA{0, 0, 0, 255})
 	},
 }
 
@@ -76,7 +82,7 @@ var imageCmd = &cobra.Command{
 			panic(err)
 		}
 
-		if err := deck().WriteImageToButton(id, args[1]); err != nil {
+		if err := getDeck().WriteImageToButton(id, args[1]); err != nil {
 			panic(err)
 		}
 	},
@@ -116,7 +122,7 @@ var colCmd = &cobra.Command{
 			panic("Green value is outside the range 0-255")
 		}
 
-		if err := deck().WriteColorToButton(id, color.RGBA{uint8(red), uint8(blue), uint8(green), 255}); err != nil {
+		if err := getDeck().WriteColorToButton(id, color.RGBA{uint8(red), uint8(blue), uint8(green), 255}); err != nil {
 			panic(err)
 		}
 	},
@@ -129,6 +135,7 @@ var Root = &cobra.Command{
 
 func init() {
 	Root.AddCommand(clearCmd)
+	Root.AddCommand(resetCmd)
 	Root.AddCommand(pollCmd)
 	Root.AddCommand(textCmd)
 	Root.AddCommand(imageCmd)
@@ -136,5 +143,11 @@ func init() {
 }
 
 func main() {
+	defer func() {
+		if deck != nil {
+			deck.Close()
+		}
+	}()
+
 	Root.Execute()
 }
