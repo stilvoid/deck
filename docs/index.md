@@ -17,6 +17,7 @@ deck is a CLI for interacting with an Elgato Stream Deck
 * [deck clear](deck_clear.md)	 - Clear the deck
 * [deck col](deck_col.md)	 - Set a button to a colour. The red, green, and blue values must all be 0-255
 * [deck image](deck_image.md)	 - Put an image on a button
+* [deck parse](deck_parse.md)	 - Listen on stdin for commands separated by newlines. Each command should be a valid invocation of deck but with the word "deck" removed.
 * [deck poll](deck_poll.md)	 - Poll for button presses until you exit with ctrl+c
 * [deck reset](deck_reset.md)	 - Rest the deck
 * [deck text](deck_text.md)	 - Put text on a button

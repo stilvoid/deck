@@ -16,6 +16,7 @@ function _deck {
       "col:Set a button to a colour. The red, green, and blue values must all be 0-255"
       "help:Help about any command"
       "image:Put an image on a button"
+      "parse:Listen on stdin for commands separated by newlines. Each command should be a valid invocation of deck but with the word "deck" removed."
       "poll:Poll for button presses until you exit with ctrl+c"
       "reset:Rest the deck"
       "text:Put text on a button"
@@ -36,6 +37,9 @@ function _deck {
     ;;
   image)
     _deck_image
+    ;;
+  parse)
+    _deck_parse
     ;;
   poll)
     _deck_poll
@@ -66,6 +70,11 @@ function _deck_help {
 function _deck_image {
   _arguments \
     '(-h --help)'{-h,--help}'[help for image]'
+}
+
+function _deck_parse {
+  _arguments \
+    '(-h --help)'{-h,--help}'[help for parse]'
 }
 
 function _deck_poll {

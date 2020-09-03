@@ -1,10 +1,14 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
 	"image/color"
+	"os"
 	"strconv"
 	"sync"
+
+	"github.com/kballard/go-shellquote"
 
 	"github.com/magicmonkey/go-streamdeck"
 	_ "github.com/magicmonkey/go-streamdeck/devices"
@@ -128,6 +132,28 @@ var colCmd = &cobra.Command{
 	},
 }
 
+var parseCmd = &cobra.Command{
+	Use:   "parse",
+	Short: "Listen on stdin for commands separated by newlines. Each command should be a valid invocation of deck but with the word \"deck\" removed.",
+	Run: func(cmd *cobra.Command, args []string) {
+		s := bufio.NewScanner(os.Stdin)
+		for s.Scan() {
+			args, err := shellquote.Split(s.Text())
+			if err != nil {
+				panic(err)
+			}
+
+			switch args[0] {
+			case "clear", "reset", "text", "image", "col":
+				Root.SetArgs(args)
+				Root.Execute()
+			default:
+				fmt.Fprintf(os.Stderr, "Refusing to parse '%s'\n", args[0])
+			}
+		}
+	},
+}
+
 var Root = &cobra.Command{
 	Use:  "deck",
 	Long: "deck is a CLI for interacting with an Elgato Stream Deck",
@@ -140,6 +166,7 @@ func init() {
 	Root.AddCommand(textCmd)
 	Root.AddCommand(imageCmd)
 	Root.AddCommand(colCmd)
+	Root.AddCommand(parseCmd)
 }
 
 func Execute() {

@@ -29,6 +29,7 @@ Available Commands:
   col         Set a button to a colour. The red, green, and blue values must all be 0-255
   help        Help about any command
   image       Put an image on a button
+  parse       Listen on stdin for commands separated by newlines. Each command should be a valid invocation of deck but with the word "deck" removed.
   poll        Poll for button presses until you exit with ctrl+c
   reset       Rest the deck
   text        Put text on a button
