@@ -13,7 +13,8 @@ deck text <id> <string> [flags]
 ### Options
 
 ```
-  -h, --help   help for text
+  -h, --help     help for text
+  -i, --invert   Invert the text (black on white)
 ```
 
 ### SEE ALSO

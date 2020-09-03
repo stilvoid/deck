@@ -62,6 +62,7 @@ var pollCmd = &cobra.Command{
 	},
 }
 
+var textInvert = false
 var textCmd = &cobra.Command{
 	Use:   "text <id> <string>",
 	Short: "Put text on a button",
@@ -72,7 +73,14 @@ var textCmd = &cobra.Command{
 			panic(err)
 		}
 
-		getDeck().WriteTextToButton(id, args[1], color.RGBA{255, 255, 255, 255}, color.RGBA{0, 0, 0, 255})
+		fg := color.RGBA{255, 255, 255, 255}
+		bg := color.RGBA{0, 0, 0, 255}
+
+		if textInvert {
+			fg, bg = bg, fg
+		}
+
+		getDeck().WriteTextToButton(id, args[1], fg, bg)
 	},
 }
 
@@ -160,6 +168,8 @@ var Root = &cobra.Command{
 }
 
 func init() {
+	textCmd.Flags().BoolVarP(&textInvert, "invert", "i", false, "Invert the text (black on white)")
+
 	Root.AddCommand(clearCmd)
 	Root.AddCommand(resetCmd)
 	Root.AddCommand(pollCmd)

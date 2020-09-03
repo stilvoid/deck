@@ -89,6 +89,7 @@ function _deck_reset {
 
 function _deck_text {
   _arguments \
-    '(-h --help)'{-h,--help}'[help for text]'
+    '(-h --help)'{-h,--help}'[help for text]' \
+    '(-i --invert)'{-i,--invert}'[Invert the text (black on white)]'
 }
 
