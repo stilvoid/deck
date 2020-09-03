@@ -39,3 +39,4 @@ Flags:
 Use "deck [command] --help" for more information about a command.
 ```
 
+See [example.sh](./example.sh) for an example of practical usage :)
