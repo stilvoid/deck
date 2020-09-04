@@ -44,9 +44,9 @@ var resetCmd = &cobra.Command{
 	},
 }
 
-var pollCmd = &cobra.Command{
-	Use:   "poll",
-	Short: "Poll for button presses until you exit with ctrl+c",
+var loopCmd = &cobra.Command{
+	Use:   "loop",
+	Short: "Output button presses to stdout and read commands from stdin until you press ctrl+c",
 	Run: func(cmd *cobra.Command, args []string) {
 		getDeck().ButtonPress(func(btn int, d *streamdeck.Device, err error) {
 			if err != nil {
@@ -56,9 +56,21 @@ var pollCmd = &cobra.Command{
 			fmt.Println(btn)
 		})
 
-		var wg sync.WaitGroup
-		wg.Add(1)
-		wg.Wait()
+		s := bufio.NewScanner(os.Stdin)
+		for s.Scan() {
+			args, err := shellquote.Split(s.Text())
+			if err != nil {
+				panic(err)
+			}
+
+			switch args[0] {
+			case "clear", "reset", "text", "image", "col":
+				Root.SetArgs(args)
+				Root.Execute()
+			default:
+				fmt.Fprintf(os.Stderr, "Refusing to parse '%s'\n", args[0])
+			}
+		}
 	},
 }
 
@@ -160,28 +172,6 @@ var colCmd = &cobra.Command{
 	},
 }
 
-var parseCmd = &cobra.Command{
-	Use:   "parse",
-	Short: "Listen on stdin for commands separated by newlines. Each command should be a valid invocation of deck but with the word \"deck\" removed.",
-	Run: func(cmd *cobra.Command, args []string) {
-		s := bufio.NewScanner(os.Stdin)
-		for s.Scan() {
-			args, err := shellquote.Split(s.Text())
-			if err != nil {
-				panic(err)
-			}
-
-			switch args[0] {
-			case "clear", "reset", "text", "image", "col":
-				Root.SetArgs(args)
-				Root.Execute()
-			default:
-				fmt.Fprintf(os.Stderr, "Refusing to parse '%s'\n", args[0])
-			}
-		}
-	},
-}
-
 var Root = &cobra.Command{
 	Use:  "deck",
 	Long: "deck is a CLI for interacting with an Elgato Stream Deck",
@@ -193,11 +183,10 @@ func init() {
 	Root.AddCommand(clearCmd)
 	Root.AddCommand(resetCmd)
 	Root.AddCommand(waitCmd)
-	Root.AddCommand(pollCmd)
+	Root.AddCommand(loopCmd)
 	Root.AddCommand(textCmd)
 	Root.AddCommand(imageCmd)
 	Root.AddCommand(colCmd)
-	Root.AddCommand(parseCmd)
 }
 
 func Execute() {

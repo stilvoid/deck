@@ -391,32 +391,9 @@ _deck_image()
     noun_aliases=()
 }
 
-_deck_parse()
+_deck_loop()
 {
-    last_command="deck_parse"
-
-    command_aliases=()
-
-    commands=()
-
-    flags=()
-    two_word_flags=()
-    local_nonpersistent_flags=()
-    flags_with_completion=()
-    flags_completion=()
-
-    flags+=("--help")
-    flags+=("-h")
-    local_nonpersistent_flags+=("--help")
-
-    must_have_one_flag=()
-    must_have_one_noun=()
-    noun_aliases=()
-}
-
-_deck_poll()
-{
-    last_command="deck_poll"
+    last_command="deck_loop"
 
     command_aliases=()
 
@@ -519,8 +496,7 @@ _deck_root_command()
     commands+=("clear")
     commands+=("col")
     commands+=("image")
-    commands+=("parse")
-    commands+=("poll")
+    commands+=("loop")
     commands+=("reset")
     commands+=("text")
     commands+=("wait")
