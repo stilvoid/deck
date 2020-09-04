@@ -33,6 +33,7 @@ Available Commands:
   poll        Poll for button presses until you exit with ctrl+c
   reset       Rest the deck
   text        Put text on a button
+  wait        Wait for a single button press
 
 Flags:
   -h, --help   help for deck

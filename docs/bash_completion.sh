@@ -486,6 +486,29 @@ _deck_text()
     noun_aliases=()
 }
 
+_deck_wait()
+{
+    last_command="deck_wait"
+
+    command_aliases=()
+
+    commands=()
+
+    flags=()
+    two_word_flags=()
+    local_nonpersistent_flags=()
+    flags_with_completion=()
+    flags_completion=()
+
+    flags+=("--help")
+    flags+=("-h")
+    local_nonpersistent_flags+=("--help")
+
+    must_have_one_flag=()
+    must_have_one_noun=()
+    noun_aliases=()
+}
+
 _deck_root_command()
 {
     last_command="deck"
@@ -500,6 +523,7 @@ _deck_root_command()
     commands+=("poll")
     commands+=("reset")
     commands+=("text")
+    commands+=("wait")
 
     flags=()
     two_word_flags=()

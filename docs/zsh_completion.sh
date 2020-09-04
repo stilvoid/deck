@@ -20,6 +20,7 @@ function _deck {
       "poll:Poll for button presses until you exit with ctrl+c"
       "reset:Rest the deck"
       "text:Put text on a button"
+      "wait:Wait for a single button press"
     )
     _describe "command" commands
     ;;
@@ -49,6 +50,9 @@ function _deck {
     ;;
   text)
     _deck_text
+    ;;
+  wait)
+    _deck_wait
     ;;
   esac
 }
@@ -91,5 +95,10 @@ function _deck_text {
   _arguments \
     '(-h --help)'{-h,--help}'[help for text]' \
     '(-i --invert)'{-i,--invert}'[Invert the text (black on white)]'
+}
+
+function _deck_wait {
+  _arguments \
+    '(-h --help)'{-h,--help}'[help for wait]'
 }
 

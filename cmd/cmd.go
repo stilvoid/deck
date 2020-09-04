@@ -62,6 +62,26 @@ var pollCmd = &cobra.Command{
 	},
 }
 
+var waitCmd = &cobra.Command{
+	Use:   "wait",
+	Short: "Wait for a single button press",
+	Run: func(cmd *cobra.Command, args []string) {
+		getDeck().ButtonPress(func(btn int, d *streamdeck.Device, err error) {
+			if err != nil {
+				panic(err)
+			}
+
+			fmt.Println(btn)
+
+			os.Exit(0)
+		})
+
+		var wg sync.WaitGroup
+		wg.Add(1)
+		wg.Wait()
+	},
+}
+
 var textInvert = false
 var textCmd = &cobra.Command{
 	Use:   "text <id> <string>",
@@ -172,6 +192,7 @@ func init() {
 
 	Root.AddCommand(clearCmd)
 	Root.AddCommand(resetCmd)
+	Root.AddCommand(waitCmd)
 	Root.AddCommand(pollCmd)
 	Root.AddCommand(textCmd)
 	Root.AddCommand(imageCmd)
