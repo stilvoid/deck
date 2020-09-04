@@ -1,6 +1,6 @@
 # Deck
 
-> Deck is a CLI for interacting with an Elgato StreamDeck
+> Deck is a CLI for interacting with an Elgato Stream Deck
 
 Please report any bugs you find [through GitHub issues](https://github.com/stilvoid/deck/issues).
 
